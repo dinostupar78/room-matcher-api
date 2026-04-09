@@ -9,4 +9,5 @@ public interface ListingRepository {
     List<Listing> findAll();
     Optional<Listing> findById(Long id);
     Optional<Listing> save(Listing listing);
+    Optional<Listing> deleteById(Long id);
 }

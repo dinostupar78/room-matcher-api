@@ -86,4 +86,18 @@ public class MockListingRepository implements ListingRepository {
         return Optional.of(newListing);
 
     }
+
+
+    @Override
+    public Optional<Listing> deleteById(Long id) {
+        Optional<Listing> listingToDelete = findById(id);
+
+        if(listingToDelete.isEmpty()) {
+            return Optional.empty();
+        } else {
+            listings.remove(listingToDelete.get());
+            return listingToDelete;
+        }
+
+    }
 }

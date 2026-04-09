@@ -40,4 +40,17 @@ public class ListingServiceImpl implements ListingService {
         return Optional.of(listingRequestDTO);
     }
 
+    @Override
+    public Optional<ListingResponseDTO> deleteById(long id) {
+        Optional<Listing> listingToDelete = listingRepository.findById(id);
+
+        if(listingToDelete.isEmpty()) {
+            return Optional.empty();
+
+        } else {
+            listingRepository.deleteById(id);
+            return Optional.of(listingMapper.toListingResponseDTO(listingToDelete.get()));
+        }
+    }
+
 }

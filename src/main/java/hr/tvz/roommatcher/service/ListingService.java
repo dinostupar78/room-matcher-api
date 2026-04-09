@@ -11,4 +11,5 @@ public interface ListingService {
     List<ListingResponseDTO> findAll();
     Optional<ListingResponseDTO> findById(long id);
     Optional<ListingRequestDTO> save(ListingRequestDTO listingRequestDTO);
+    Optional<ListingResponseDTO> deleteById(long id);
 }

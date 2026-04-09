@@ -54,4 +54,17 @@ public class ListingController {
             return ResponseEntity.status(HttpStatus.CREATED).body(createdListing.get());
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteListing(@PathVariable Long id) {
+        Optional<ListingResponseDTO> listingToDelete = listingService.findById(id);
+
+        if(listingToDelete.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } else {
+            listingService.deleteById(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+    }
+
 }
