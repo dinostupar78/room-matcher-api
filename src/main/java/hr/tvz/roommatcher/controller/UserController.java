@@ -1,6 +1,5 @@
 package hr.tvz.roommatcher.controller;
 
-import hr.tvz.roommatcher.dto.ListingDTO;
 import hr.tvz.roommatcher.dto.UserDTO;
 import hr.tvz.roommatcher.service.UserService;
 import lombok.AllArgsConstructor;

@@ -1,7 +1,7 @@
 package hr.tvz.roommatcher.service;
 
 import hr.tvz.roommatcher.dto.ListingDTO;
-import hr.tvz.roommatcher.model.entities.Listing;
+import hr.tvz.roommatcher.model.Listing;
 import hr.tvz.roommatcher.repository.ListingRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

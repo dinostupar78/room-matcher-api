@@ -1,4 +1,4 @@
-package hr.tvz.roommatcher.model.entities;
+package hr.tvz.roommatcher.model;
 import lombok.Builder;
 import lombok.Data;
 import java.time.LocalDate;

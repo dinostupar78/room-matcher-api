@@ -1,6 +1,6 @@
 package hr.tvz.roommatcher.repository;
 
-import hr.tvz.roommatcher.model.entities.Listing;
+import hr.tvz.roommatcher.model.Listing;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;

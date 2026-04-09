@@ -1,4 +1,4 @@
-package hr.tvz.roommatcher.model.enums;
+package hr.tvz.roommatcher.enums;
 
 public enum UserRole {
     USER,

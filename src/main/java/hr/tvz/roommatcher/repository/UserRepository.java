@@ -1,6 +1,6 @@
 package hr.tvz.roommatcher.repository;
 
-import hr.tvz.roommatcher.model.entities.User;
+import hr.tvz.roommatcher.model.User;
 
 import java.util.List;
 import java.util.Optional;
