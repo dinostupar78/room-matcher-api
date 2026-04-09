@@ -67,4 +67,23 @@ public class MockListingRepository implements ListingRepository {
                 .filter(listing -> listing.getId().equals(id))
                 .findFirst();
     }
+
+    @Override
+    public Optional<Listing> save(Listing listing) {
+        Listing newListing = Listing.builder()
+                .id((long) (listings.size() + 1))
+                .title(listing.getTitle())
+                .address(listing.getAddress())
+                .price(listing.getPrice())
+                .size(listing.getSize())
+                .roomCount(listing.getRoomCount())
+                .description(listing.getDescription())
+                .availableFrom(listing.getAvailableFrom())
+                .isActive(true)
+                .build();
+
+        listings.add(newListing);
+        return Optional.of(newListing);
+
+    }
 }

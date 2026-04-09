@@ -1,14 +1,14 @@
 package hr.tvz.roommatcher.controller;
 
 import hr.tvz.roommatcher.dto.ListingDTO;
+import hr.tvz.roommatcher.dto.ListingRequestDTO;
+import hr.tvz.roommatcher.dto.ListingResponseDTO;
 import hr.tvz.roommatcher.service.ListingService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,8 +21,8 @@ public class ListingController {
     private final ListingService listingService;
 
     @GetMapping
-    public ResponseEntity<List<ListingDTO>> getAllListings() {
-        List<ListingDTO> listings = listingService.findAll();
+    public ResponseEntity<List<ListingResponseDTO>> getAllListings() {
+        List<ListingResponseDTO> listings = listingService.findAll();
 
         if(listings.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -33,8 +33,8 @@ public class ListingController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ListingDTO> findById(@PathVariable Long id) {
-        Optional<ListingDTO> findTaskById = listingService.findById(id);
+    public ResponseEntity<ListingResponseDTO> findById(@PathVariable Long id) {
+        Optional<ListingResponseDTO> findTaskById = listingService.findById(id);
 
         if(findTaskById.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -42,5 +42,16 @@ public class ListingController {
             return ResponseEntity.status(HttpStatus.OK).body(findTaskById.get());
         }
 
+    }
+
+    @PostMapping
+    public ResponseEntity<ListingRequestDTO> createListing(@Valid @RequestBody ListingRequestDTO listingRequestDTO) {
+        Optional<ListingRequestDTO> createdListing = listingService.save(listingRequestDTO);
+
+        if(createdListing.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdListing.get());
+        }
     }
 }

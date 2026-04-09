@@ -1,6 +1,9 @@
 package hr.tvz.roommatcher.service;
 
 import hr.tvz.roommatcher.dto.ListingDTO;
+import hr.tvz.roommatcher.dto.ListingRequestDTO;
+import hr.tvz.roommatcher.dto.ListingResponseDTO;
+import hr.tvz.roommatcher.mapper.ListingMapper;
 import hr.tvz.roommatcher.model.Listing;
 import hr.tvz.roommatcher.repository.ListingRepository;
 import lombok.AllArgsConstructor;
@@ -14,32 +17,27 @@ import java.util.Optional;
 public class ListingServiceImpl implements ListingService {
 
     private final ListingRepository listingRepository;
+    private final ListingMapper listingMapper;
+
+
     @Override
-    public List<ListingDTO> findAll() {
+    public List<ListingResponseDTO> findAll() {
         return listingRepository.findAll().stream()
-                .map(this::mapToDTO)
+                .map(listingMapper::toListingResponseDTO)
                 .toList();
     }
 
     @Override
-    public Optional<ListingDTO> findById(long id) {
+    public Optional<ListingResponseDTO> findById(long id) {
         return listingRepository.findById(id)
-                .stream()
-                .map(this::mapToDTO)
-                .findFirst();
-
+                .map(listingMapper::toListingResponseDTO);
     }
 
-    private ListingDTO mapToDTO(Listing listing) {
-        return ListingDTO.builder()
-                .title(listing.getTitle())
-                .address(listing.getAddress())
-                .price(listing.getPrice())
-                .size(listing.getSize())
-                .roomCount(listing.getRoomCount())
-                .description(listing.getDescription())
-                .availableFrom(listing.getAvailableFrom())
-                .isActive(listing.getIsActive())
-                .build();
+    @Override
+    public Optional<ListingRequestDTO> save(ListingRequestDTO listingRequestDTO) {
+        Listing listing = listingMapper.toListing(listingRequestDTO);
+        listingRepository.save(listing);
+        return Optional.of(listingRequestDTO);
     }
+
 }
