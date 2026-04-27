@@ -1,49 +1,52 @@
 package hr.tvz.roommatcher.controller;
-
-import hr.tvz.roommatcher.dto.UserDTO;
+import hr.tvz.roommatcher.dto.user.AppUserDTO;
+import hr.tvz.roommatcher.dto.user.AppUserRequest;
+import hr.tvz.roommatcher.dto.user.AppUserResponse;
+import hr.tvz.roommatcher.dto.user.UpdateUserRequest;
 import hr.tvz.roommatcher.service.UserService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.Optional;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/api/users")
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
-        Optional<UserDTO> findTaskById = userService.findById(id);
-
-        if(findTaskById.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } else {
-            return ResponseEntity.status(HttpStatus.OK).body(findTaskById.get());
-        }
-
-    }
-
     @GetMapping("/me")
-    public ResponseEntity<UserDTO> getMe() {
-        Optional<UserDTO> me = userService.findMe();
-
-        if (me.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } else {
-            return ResponseEntity.status(HttpStatus.OK).body(me.get());
-        }
+    public ResponseEntity<AppUserResponse> getMe() {
+        AppUserResponse response = userService.getMe();
+        return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/me/avatar")
+    public ResponseEntity<AppUserResponse> uploadAvatar(@RequestParam("file") MultipartFile file) {
+        AppUserResponse response = userService.uploadAvatar(file);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<AppUserResponse> updateMe(@Valid @RequestBody UpdateUserRequest request) {
+        AppUserResponse response = userService.updateMe(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AppUserDTO> getPublicUser(@PathVariable Long id) {
+        AppUserDTO response = userService.getPublicUser(id);
+        return ResponseEntity.ok(response);
+
+    }
+
+    @DeleteMapping("/me")
+    public ResponseEntity<Void> deleteMe() {
+        userService.deleteMe();
+        return ResponseEntity.noContent().build();
+    }
 
 }
-
-
