@@ -1,15 +1,20 @@
 package hr.tvz.roommatcher.service;
 
-import hr.tvz.roommatcher.dto.ListingDTO;
-import hr.tvz.roommatcher.dto.ListingRequestDTO;
-import hr.tvz.roommatcher.dto.ListingResponseDTO;
+import hr.tvz.roommatcher.dto.listing.ListingRequest;
+import hr.tvz.roommatcher.dto.listing.ListingResponse;
+import hr.tvz.roommatcher.dto.listing.UpdateListingRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ListingService {
-    List<ListingResponseDTO> findAll();
-    Optional<ListingResponseDTO> findById(long id);
-    Optional<ListingRequestDTO> save(ListingRequestDTO listingRequestDTO);
-    Optional<ListingResponseDTO> deleteById(long id);
+    List<ListingResponse> findAll();
+    Optional<ListingResponse> findById(long id);
+    List<ListingResponse> getMyListings();
+    ListingResponse addListing(ListingRequest listingRequest);
+    ListingResponse updateListing(Long id, UpdateListingRequest updateListingRequest);
+    ListingResponse uploadImage(Long listingId, MultipartFile file);
+    void deleteImage(Long listingId, Long imageId);
+    void deleteById(long id);
 }
