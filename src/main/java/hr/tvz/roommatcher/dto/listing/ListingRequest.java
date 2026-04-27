@@ -1,17 +1,17 @@
-package hr.tvz.roommatcher.dto;
+package hr.tvz.roommatcher.dto.listing;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ListingRequestDTO {
+public class ListingRequest {
 
     @NotBlank(message = "Title is required")
     @Size(min = 2, max = 50,
@@ -25,7 +25,7 @@ public class ListingRequestDTO {
     @NotNull(message = "Price is required")
     @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0")
     @Digits(integer = 8, fraction = 2, message = "Price must be a valid number with up to 8 digits and 2 decimal places")
-    private String price;
+    private BigDecimal price;
 
     @NotNull(message = "Size is required")
     @Min(value = 5, message = "Size must be at least 5 m²")

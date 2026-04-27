@@ -1,8 +1,9 @@
-package hr.tvz.roommatcher.dto;
+package hr.tvz.roommatcher.dto.listing;
 
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
@@ -12,7 +13,7 @@ public class ListingDTO {
 
     private String address;
 
-    private String price;
+    private BigDecimal price;
 
     private Integer size;
 
