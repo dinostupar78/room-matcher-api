@@ -1,16 +1,10 @@
 package hr.tvz.roommatcher.dto.auth;
+import jakarta.validation.constraints.NotBlank;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+public record AuthRequest(
+        @NotBlank(message = "Username is required")
+        String username,
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class AuthRequest{
-        private String username;
-        private String password;
-
-}
+        @NotBlank(message = "Password is required")
+        String password
+) {}
