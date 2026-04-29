@@ -1,5 +1,4 @@
 package hr.tvz.roommatcher.service;
-
 import hr.tvz.roommatcher.model.AppUser;
 import hr.tvz.roommatcher.model.RefreshToken;
 import hr.tvz.roommatcher.repository.RefreshTokenJpaRepository;
@@ -7,10 +6,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import java.time.Instant;
 import java.util.UUID;
-
 
 @Service
 @RequiredArgsConstructor

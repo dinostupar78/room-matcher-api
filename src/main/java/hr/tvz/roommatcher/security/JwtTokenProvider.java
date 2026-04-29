@@ -1,5 +1,4 @@
 package hr.tvz.roommatcher.security;
-
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

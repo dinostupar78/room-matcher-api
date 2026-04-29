@@ -1,18 +1,16 @@
 package hr.tvz.roommatcher.model;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.Instant;
 
-@Entity
-@Builder
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Data
+@Entity
 @Table(name = "refresh_token")
 public class RefreshToken {
     @Id
