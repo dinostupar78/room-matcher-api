@@ -11,8 +11,8 @@ import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Builder
+@Data
 @Entity
 @Table(name = "listing")
 public class Listing {
@@ -35,9 +35,6 @@ public class Listing {
 
     @Column(nullable = false)
     private Integer size;
-
-    @Column(nullable = false)
-    private Integer roomCount;
 
     @Column(nullable = false, length = 1000)
     private String description;
