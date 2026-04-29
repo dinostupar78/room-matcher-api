@@ -1,12 +1,13 @@
-INSERT INTO authority (role) VALUES ('ROLE_USER');
-INSERT INTO authority (role) VALUES ('ROLE_ADMIN');
+INSERT INTO authority (role) VALUES
+    ('ROLE_USER'),
+    ('ROLE_ADMIN');
 
 INSERT INTO app_user (username, email, password, name, gender, bio, profile_image_url,
                       date_of_birth, registration_date) VALUES
       (
           'admin',
           'admin@roommatcher.hr',
-          '$2a$10$3Ly9NoVcJGrLuNtQo9c2zuHBDJs5Vftn1Qcor45fE79ueBy1Rciha',
+          'admin12345',
           'Admin RoomMatcher',
           'MALE',
           'Administrator sustava za testiranje RoomMatcher aplikacije.',
@@ -17,7 +18,7 @@ INSERT INTO app_user (username, email, password, name, gender, bio, profile_imag
       (
           'ana.zg',
           'ana.zg@student.hr',
-          '$2a$10$3Ly9NoVcJGrLuNtQo9c2zuHBDJs5Vftn1Qcor45fE79ueBy1Rciha',
+          'ana12345',
           'Ana Kovač',
           'FEMALE',
           'Studentica FER-a, tražim mirnu cimericu za stan blizu faksa. Volim uredan prostor i dogovor oko kućanskih obaveza.',
@@ -28,7 +29,7 @@ INSERT INTO app_user (username, email, password, name, gender, bio, profile_imag
       (
           'marko.ri',
           'marko.ri@student.hr',
-          '$2a$10$3Ly9NoVcJGrLuNtQo9c2zuHBDJs5Vftn1Qcor45fE79ueBy1Rciha',
+          'marko12345',
           'Marko Horvat',
           'MALE',
           'Student informatike u Rijeci. Tražim cimera, ne pušim i uglavnom učim doma.',
@@ -39,7 +40,7 @@ INSERT INTO app_user (username, email, password, name, gender, bio, profile_imag
       (
           'lara.st',
           'lara.st@student.hr',
-          '$2a$10$3Ly9NoVcJGrLuNtQo9c2zuHBDJs5Vftn1Qcor45fE79ueBy1Rciha',
+          'lara12345',
           'Lara Bilić',
           'FEMALE',
           'Studentica ekonomije u Splitu. Tražim stan blizu kampusa ili dobru autobusnu povezanost.',
@@ -49,13 +50,13 @@ INSERT INTO app_user (username, email, password, name, gender, bio, profile_imag
       );
 
 INSERT INTO app_user_authority (app_user_id, authority_id) VALUES
-        (1, 2), -- admin ima ROLE_ADMIN
-        (2, 1), -- ana.zg ima ROLE_USER
-        (3, 1), -- marko.ri ima ROLE_USER
-        (4, 1); -- lara.st ima ROLE_USER
+        (1, 2),
+        (2, 1),
+        (3, 1),
+        (4, 1);
 
 
-INSERT INTO listing (title, app_user_id, address, price, size, room_count, description,
+INSERT INTO listing (title, app_user_id, address, price, size, description,
                      available_from, is_active) VALUES
       (
           'Soba blizu Studentskog doma Stjepan Radić',
@@ -63,7 +64,6 @@ INSERT INTO listing (title, app_user_id, address, price, size, room_count, descr
           'Jarunska ulica 2, Zagreb',
           280.00,
           48,
-          2,
           'Iznajmljuje se jedna soba u stanu blizu Save i tramvaja. Stan je pogodan za studente, režije se dijele po dogovoru.',
           '2026-09-01',
           true
@@ -74,7 +74,6 @@ INSERT INTO listing (title, app_user_id, address, price, size, room_count, descr
           'Radmile Matejčić 5, Rijeka',
           250.00,
           42,
-          2,
           'Tražim cimera za stan u blizini Kampusa Trsat. Stan ima dvije sobe, kuhinju, kupaonicu i dobru povezanost autobusom.',
           '2026-08-15',
           true
@@ -85,7 +84,6 @@ INSERT INTO listing (title, app_user_id, address, price, size, room_count, descr
           'Ulica Matice hrvatske 1, Split',
           300.00,
           55,
-          3,
           'Slobodna soba u studentskom stanu u Splitu. Blizu je dom, menza i autobusne linije prema kampusu.',
           '2026-09-10',
           true
@@ -96,8 +94,13 @@ INSERT INTO listing (title, app_user_id, address, price, size, room_count, descr
           'Ivana Lučića 3, Zagreb',
           520.00,
           60,
-          2,
           'Dvosoban stan pogodan za dvije studentice ili studenta. Blizina fakulteta, tramvaja i trgovina.',
           '2026-10-01',
           true
       );
+
+INSERT INTO favorite_listing (app_user_id, listing_id) VALUES
+    (2, 1),
+    (2, 4),
+    (3, 2),
+    (4, 3);

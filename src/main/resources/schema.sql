@@ -1,9 +1,10 @@
-DROP TABLE IF EXISTS app_user_authority CASCADE;
+DROP TABLE IF EXISTS favorite_listing CASCADE;
 DROP TABLE IF EXISTS refresh_token CASCADE;
 DROP TABLE IF EXISTS listing_image CASCADE;
+DROP TABLE IF EXISTS app_user_authority CASCADE;
 DROP TABLE IF EXISTS listing CASCADE;
-DROP TABLE IF EXISTS authority CASCADE;
 DROP TABLE IF EXISTS app_user CASCADE;
+DROP TABLE IF EXISTS authority CASCADE;
 
 CREATE TABLE authority (
     id BIGSERIAL PRIMARY KEY,
@@ -24,11 +25,11 @@ CREATE TABLE app_user (
 );
 
 CREATE TABLE app_user_authority (
-    app_user_id BIGINT NOT NULL,
-    authority_id BIGINT NOT NULL,
-    PRIMARY KEY (app_user_id, authority_id),
-    FOREIGN KEY (app_user_id) REFERENCES app_user(id) ON DELETE CASCADE,
-    FOREIGN KEY (authority_id) REFERENCES authority(id) ON DELETE CASCADE
+     app_user_id BIGINT NOT NULL,
+     authority_id BIGINT NOT NULL,
+     PRIMARY KEY (app_user_id, authority_id),
+     FOREIGN KEY (app_user_id) REFERENCES app_user(id) ON DELETE CASCADE,
+     FOREIGN KEY (authority_id) REFERENCES authority(id) ON DELETE CASCADE
 );
 
 CREATE TABLE listing (
@@ -38,11 +39,17 @@ CREATE TABLE listing (
     address VARCHAR(200) NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     size INT NOT NULL,
-    room_count INT NOT NULL,
     description VARCHAR(1000) NOT NULL,
     available_from DATE NOT NULL,
     is_active BOOLEAN NOT NULL,
     FOREIGN KEY (app_user_id) REFERENCES app_user(id) ON DELETE CASCADE
+);
+
+CREATE TABLE listing_image (
+    id BIGSERIAL PRIMARY KEY,
+    image_url VARCHAR(500) NOT NULL,
+    listing_id BIGINT NOT NULL,
+    FOREIGN KEY (listing_id) REFERENCES listing(id) ON DELETE CASCADE
 );
 
 CREATE TABLE refresh_token (
@@ -53,9 +60,11 @@ CREATE TABLE refresh_token (
     FOREIGN KEY (app_user_id) REFERENCES app_user(id) ON DELETE CASCADE
 );
 
-CREATE TABLE listing_image (
+CREATE TABLE favorite_listing (
     id BIGSERIAL PRIMARY KEY,
-    image_url VARCHAR(500) NOT NULL,
+    app_user_id BIGINT NOT NULL,
     listing_id BIGINT NOT NULL,
-    FOREIGN KEY (listing_id) REFERENCES listing(id) ON DELETE CASCADE
+    FOREIGN KEY (app_user_id) REFERENCES app_user(id) ON DELETE CASCADE,
+    FOREIGN KEY (listing_id) REFERENCES listing(id) ON DELETE CASCADE,
+    UNIQUE (app_user_id, listing_id)
 );
