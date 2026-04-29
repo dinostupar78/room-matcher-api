@@ -1,10 +1,10 @@
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk-jammy
 
 WORKDIR /app
 
 COPY . .
 
-RUN ./mvnw clean package -DskipTests
+RUN chmod +x ./mvnw && ./mvnw clean package -DskipTests
 
 EXPOSE 8080
 
