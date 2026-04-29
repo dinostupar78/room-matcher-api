@@ -1,5 +1,4 @@
 package hr.tvz.roommatcher.service;
-
 import hr.tvz.roommatcher.dto.listing.ListingRequest;
 import hr.tvz.roommatcher.dto.listing.ListingResponse;
 import hr.tvz.roommatcher.dto.listing.UpdateListingRequest;
@@ -10,11 +9,11 @@ import hr.tvz.roommatcher.model.ListingImage;
 import hr.tvz.roommatcher.repository.AppUserJpaRepository;
 import hr.tvz.roommatcher.repository.ListingImageJpaRepository;
 import hr.tvz.roommatcher.repository.ListingJpaRepository;
-import lombok.AllArgsConstructor;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,8 +23,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ListingServiceImpl implements ListingService {
+
+    private static final String UPLOAD_DIR = "uploads/listings/";
 
     private final ListingJpaRepository listingRepository;
     private final AppUserJpaRepository appUserRepository;
@@ -35,7 +36,8 @@ public class ListingServiceImpl implements ListingService {
 
     @Override
     public List<ListingResponse> findAll() {
-        return listingRepository.findAll().stream()
+        return listingRepository.findAll()
+                .stream()
                 .map(listingMapper::toListingResponse)
                 .toList();
     }
@@ -70,48 +72,56 @@ public class ListingServiceImpl implements ListingService {
     }
 
     @Override
+    @Transactional
     public ListingResponse updateListing(Long id, UpdateListingRequest updateListingRequest) {
+        AppUser currentUser = getCurrentUser();
+
         Listing listing = listingRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Listing with id " + id + " not found."));
 
+        validateOwner(listing, currentUser);
+
         listingMapper.updateListingFromRequest(updateListingRequest, listing);
 
-        Listing updatedListing = listingRepository.save(listing);
-        return listingMapper.toListingResponse(updatedListing);
+        return listingMapper.toListingResponse(listingRepository.save(listing));
 
     }
 
     @Override
-    public ListingResponse uploadImage(Long listingId, MultipartFile file) {
+    @Transactional
+    public ListingResponse uploadImages(Long listingId, List<MultipartFile> files) {
         AppUser currentUser = getCurrentUser();
 
         Listing listing = listingRepository.findById(listingId)
                 .orElseThrow(() -> new RuntimeException("Listing not found"));
 
-        if (!listing.getAppUser().getId().equals(currentUser.getId())) {
-            throw new RuntimeException("You are not owner of this listing");
+        validateOwner(listing, currentUser);
+
+        if (files == null || files.isEmpty()) {
+            throw new RuntimeException("Files are empty");
         }
 
-        if (file.isEmpty()) {
-            throw new RuntimeException("File is empty");
-        }
-
-        try{
-            String uploadDir = "uploads/listings/";
-            String fileName = listingId + "_" + System.currentTimeMillis() + "_" + file.getOriginalFilename();
-
-            Path uploadPath = Paths.get(uploadDir);
+        try {
+            Path uploadPath = Paths.get(UPLOAD_DIR);
             Files.createDirectories(uploadPath);
 
-            Path filePath = uploadPath.resolve(fileName);
-            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+            for (MultipartFile file : files) {
+                if (file.isEmpty()) {
+                    continue;
+                }
 
-            ListingImage image = ListingImage.builder()
-                    .imageUrl("/uploads/listings/" + fileName)
-                    .listing(listing)
-                    .build();
+                String fileName = listingId + "_" + System.currentTimeMillis() + "_" + file.getOriginalFilename();
 
-            listingImageRepository.save(image);
+                Path filePath = uploadPath.resolve(fileName);
+                Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+                ListingImage image = ListingImage.builder()
+                        .imageUrl("/uploads/listings/" + fileName)
+                        .listing(listing)
+                        .build();
+
+                listingImageRepository.save(image);
+            }
 
             Listing updatedListing = listingRepository.findById(listingId)
                     .orElseThrow(() -> new RuntimeException("Listing not found"));
@@ -119,21 +129,20 @@ public class ListingServiceImpl implements ListingService {
             return listingMapper.toListingResponse(updatedListing);
 
         } catch (IOException e) {
-            throw new RuntimeException("Could not upload listing image");
+            throw new RuntimeException("Could not upload listing images", e);
         }
 
     }
 
     @Override
+    @Transactional
     public void deleteImage(Long listingId, Long imageId) {
         AppUser currentUser = getCurrentUser();
 
         Listing listing = listingRepository.findById(listingId)
                 .orElseThrow(() -> new RuntimeException("Listing not found"));
 
-        if (!listing.getAppUser().getId().equals(currentUser.getId())) {
-            throw new RuntimeException("You are not owner of this listing");
-        }
+        validateOwner(listing, currentUser);
 
         ListingImage image = listingImageRepository.findById(imageId)
                 .orElseThrow(() -> new RuntimeException("Image not found"));
@@ -146,18 +155,23 @@ public class ListingServiceImpl implements ListingService {
             Path path = Paths.get(image.getImageUrl().replaceFirst("^/uploads/", "uploads/"));
             Files.deleteIfExists(path);
 
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            throw new RuntimeException("Could not delete listing image", e);
         }
 
         listingImageRepository.delete(image);
 
-
     }
 
     @Override
+    @Transactional
     public void deleteById(long id) {
+        AppUser currentUser = getCurrentUser();
+
         Listing listing = listingRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Listing not found"));
+
+        validateOwner(listing, currentUser);
 
         listingRepository.delete(listing);
     }
@@ -169,6 +183,12 @@ public class ListingServiceImpl implements ListingService {
 
         return appUserRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    private void validateOwner(Listing listing, AppUser currentUser) {
+        if (!listing.getAppUser().getId().equals(currentUser.getId())) {
+            throw new RuntimeException("You are not owner of this listing");
+        }
     }
 
 }
