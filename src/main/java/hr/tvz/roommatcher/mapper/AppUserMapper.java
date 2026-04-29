@@ -1,7 +1,5 @@
 package hr.tvz.roommatcher.mapper;
-
-import hr.tvz.roommatcher.dto.user.AppUserDTO;
-import hr.tvz.roommatcher.dto.user.AppUserRequest;
+import hr.tvz.roommatcher.dto.user.PublicUserResponse;
 import hr.tvz.roommatcher.dto.user.AppUserResponse;
 import hr.tvz.roommatcher.dto.user.UpdateUserRequest;
 import hr.tvz.roommatcher.model.AppUser;
@@ -11,7 +9,7 @@ import org.mapstruct.*;
 public interface AppUserMapper {
     AppUserResponse toAppUserResponse(AppUser appUser);
 
-    AppUserDTO toDto(AppUser appUser);
+    PublicUserResponse toDto(AppUser appUser);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id", ignore = true)
