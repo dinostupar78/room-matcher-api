@@ -1,0 +1,181 @@
+Authentication API Endpoints
+
+POST http://localhost:8080/api/auth/register
+Request Body (JSON):
+{
+  "username": "dino.stu",
+  "email": "dinostupar32@gmail.com",
+  "password": "dino1234",
+  "name": "Dino Stupar",
+  "gender": "MALE",
+  "bio": "Hello, I'm Dino Stupar, a passionate software developer with a love for coding and technology. I enjoy creating innovative solutions and learning new programming languages. In my free time, I like to explore the latest trends in tech and contribute to open-source projects",
+  "profileImageUrl": "https://example.com/profile-picture.jpg",
+  "dateOfBirth": "2004-09-28"
+}
+
+Response: 201 Created
+
+
+POST http://localhost:8080/api/auth/login
+Request Body (JSON):
+{
+  "username": "dino.stu",
+  "password": "dino1234"
+}
+
+Response: 200 OK
+
+
+POST http://localhost:8080/api/auth/refresh
+Request Body (JSON):
+{
+  "refreshToken": "6807bceb-a2b9-489e-81f4-0a01d98c62eb"
+}
+
+Response: 200 OK
+
+
+POST http://localhost:8080/api/auth/logout
+Request Body (JSON):
+{
+  "refreshToken": "6807bceb-a2b9-489e-81f4-0a01d98c62eb"
+}
+
+Response: 204 No Content
+
+
+User API Endpoints
+
+GET http://localhost:8080/api/users
+Request Body (JSON): None
+
+Response: 200 OK
+
+
+GET http://localhost:8080/api/users/1
+Request Body (JSON): None
+
+Response: 200 OK
+
+
+GET http://localhost:8080/api/users/me
+Request Body (JSON): None
+
+Response: 200 OK
+
+
+PUT http://localhost:8080/api/users/me
+Request Body (JSON):
+{
+  "username": "dino.stupar"
+}
+
+Response: 200 OK
+
+
+POST http://localhost:8080/api/users/me/avatar
+Request Body (Form Data):
+Key: file
+Type: File
+Value: Image file (e.g., profile-picture.jpg)
+
+Response: 200 OK
+
+
+DELETE http://localhost:8080/api/users/me
+Request Body (JSON): None
+
+Response: 204 No Content
+
+
+
+Listing API Endpoints
+
+GET http://localhost:8080/api/listings
+Request Body (JSON): None
+
+Response: 200 OK
+
+
+GET http://localhost:8080/api/listings/1
+Request Body (JSON): None
+
+Response: 200 OK
+
+
+GET http://localhost:8080/api/listings/me
+Request Body (JSON): None
+
+Response: 200 OK
+
+
+POST http://localhost:8080/api/listings
+Request Body (JSON):
+{
+  "title": "Jednosobni stan blizu TVZ-a",
+  "address": "Vrbik 12, Zagreb",
+  "price": 450.00,
+  "size": 28,
+  "description": "Namješten jednosobni stan idealan za studente. Blizina TVZ-a, tramvajska stanica udaljena 2 minute. Uključeni svi osnovni kućanski aparati (perilica, hladnjak, štednjak). Mirna lokacija, brzi internet.",
+  "availableFrom": "2026-05-01",
+  "isActive": true
+}
+
+Response: 201 Created
+
+
+POST http://localhost:8080/api/listings/5/images
+Request Body (Form Data):
+Key: files
+Type: File
+Value: Image file (e.g., profile-picture.jpg)
+
+Response: 200 OK
+
+
+PUT http://localhost:8080/api/listings/1
+Request Body (JSON):
+{
+    "title": "Soba kod Studentskog doma Stjepan Radić"
+}
+
+Response: 200 OK
+
+
+DELETE http://localhost:8080/api/listings/5
+Request Body (JSON): None
+
+Response: 204 No Content
+
+
+DELETE http://localhost:8080/api/listings/5/images/2
+Request Body (JSON): None
+
+Response: 204 No Content
+
+
+
+Favorite Listing API Endpoints
+
+GET http://localhost:8080/api/favorites/me
+Request Body (JSON): None
+
+Response: 200 OK
+
+
+GET http://localhost:8080/api/favorites/1/exists
+Request Body (JSON): None
+
+Response: 200 OK
+
+POST http://localhost:8080/api/favorites/1
+Request Body (JSON): None
+
+Response: 201 Created
+
+
+DELETE http://localhost:8080/api/favorites/1
+Request Body (JSON): None
+
+Response: 204 No Content
+
