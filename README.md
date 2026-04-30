@@ -4,7 +4,7 @@ RoomMatcher is a web application for managing users and room/flat listings, incl
 
 This repository (`roommatcher-api`) contains the REST API, business logic, security configuration, and database integration for RoomMatcher. It exposes endpoints for authentication, user profile management, listing management, favorites, and static file access for uploaded images.
 
-## TVZ MC2 Context
+## TVZ Mc2 Context
 
 This project was created as part of the TVZ MC2 student competition, organized by the Student Council of the Zagreb University of Applied Sciences (TVZ).
 
