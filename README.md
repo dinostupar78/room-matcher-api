@@ -22,9 +22,9 @@ More information about the competition is available at: [https://mc2.tvz.hr/](ht
 
 The Roommate Matcher project is split into two separate repositories:
 
-| Repository | Purpose | Tech |
-| ---------- | ------- | ---- |
-| [roommate-matcher-api](https://github.com/dinostupar78/roommate-matcher-api) | Backend REST API, authentication, database integration, and business logic | Spring Boot |
+| Repository | Purpose                                                             | Tech |
+| ---------- |---------------------------------------------------------------------| ---- |
+| [roommate-matcher-api](https://github.com/dinostupar78/roommate-matcher-api) | Backend REST API, authentication, db integration and business logic | Spring Boot |
 | [roommate-matcher-web](https://github.com/Hrvoje1307/roommate-matcher-web) | Frontend web application and user interface | Next.js |
 
 ## Architecture Overview
