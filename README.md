@@ -1,8 +1,8 @@
-# RoomMatcher
+# Roommate Matcher
 
-RoomMatcher is a web application for managing users and room/flat listings, including authenticated user actions, listing interactions, image uploads, and favorites. The overall system is split into two independently developed repositories - one for the backend and one for the frontend - so each part can be maintained and deployed separately.
+Roommate Matcher is a web application for managing users and room/flat listings, including authenticated user actions, listing interactions, image uploads, and favorites. The overall system is split into two independently developed repositories - one for the backend and one for the frontend - so each part can be maintained and deployed separately.
 
-This repository (`roommatcher-api`) contains the REST API, business logic, security configuration, and database integration for RoomMatcher. It exposes endpoints for authentication, user profile management, listing management, favorites, and static file access for uploaded images.
+This repository (`roommate-matcher-api`) contains the REST API, business logic, security configuration, and database integration for Roommate Matcher. It exposes endpoints for authentication, user profile management, listing management, favorites, and static file access for uploaded images.
 
 ## TVZ Mc2 Context
 
@@ -20,23 +20,23 @@ More information about the competition is available at: [https://mc2.tvz.hr/](ht
 
 ## Repositories
 
-The RoomMatcher project is split into two separate repositories:
+The Roommate Matcher project is split into two separate repositories:
 
 | Repository | Purpose | Tech |
 | ---------- | ------- | ---- |
-| [roommatcher-api](https://github.com/dinostupar78/room-matcher-api) | Backend REST API, authentication, database integration, and business logic | Spring Boot |
-| [roommatcher-web](https://github.com/Hrvoje1307/room-matcher-web) | Frontend web application and user interface | Next.js |
+| [roommate-matcher-api](https://github.com/dinostupar78/roommate-matcher-api) | Backend REST API, authentication, database integration, and business logic | Spring Boot |
+| [roommate-matcher-web](https://github.com/Hrvoje1307/roommate-matcher-web) | Frontend web application and user interface | Next.js |
 
 ## Architecture Overview
 
-RoomMatcher is split into a frontend client, backend API, and relational database.
+Roommate Matcher is split into a frontend client, backend API, and relational database.
 
 ```text
-roommatcher-web (Next.js)
+roommate-matcher-web (Next.js)
         |
         | REST API
         v
-roommatcher-api (Spring Boot)
+roommate-matcher-api (Spring Boot)
         |
         v
 PostgreSQL / H2
@@ -46,7 +46,7 @@ The frontend communicates with the backend through HTTP API calls. Authenticatio
 
 ---
 
-# Backend - roommatcher-api
+# Backend - roommate-matcher-api
 
 The backend provides a REST API secured with JWT-based authentication. It contains the service layer and persistence logic, integrates with relational databases, and includes configuration for both local development and production-like deployments.
 
@@ -148,7 +148,7 @@ According to the security configuration, everything under `/api/**` requires aut
 
 ## Authentication
 
-RoomMatcher uses JWT-based authentication.
+Roommate Matcher uses JWT-based authentication.
 
 Public authentication routes are available under:
 
@@ -167,10 +167,10 @@ If the token is missing, invalid, or expired, protected endpoints return `401 Un
 ## Project Structure
 
 ```text
-roommatcher-api/
+roommate-matcher-api/
 ├── src/
 │   ├── main/
-│   │   ├── java/hr/tvz/roommatcher/
+│   │   ├── java/hr/tvz/roommatematcher/
 │   │   │   ├── controller/
 │   │   │   ├── service/
 │   │   │   ├── repository/
@@ -218,7 +218,7 @@ roommatcher-api/
 
 ```bash
 git clone <backend-repository-url>
-cd roommatcher-api
+cd roommate-matcher-api
 ```
 
 ### Start PostgreSQL with Docker
@@ -228,8 +228,8 @@ This repository includes a `docker-compose.yml` file that starts PostgreSQL 16.
 The compose file expects the following environment variables:
 
 ```env
-POSTGRES_DB=roommatcher
-POSTGRES_USER=roommatcher_user
+POSTGRES_DB=roommatematcher
+POSTGRES_USER=roommatematcher_user
 POSTGRES_PASSWORD=your_password
 ```
 
@@ -256,8 +256,8 @@ For the `prod` profile, the following variables are required:
 
 ```env
 SPRING_PROFILES_ACTIVE=prod
-DATABASE_URL=jdbc:postgresql://localhost:5433/roommatcher
-POSTGRES_USER=roommatcher_user
+DATABASE_URL=jdbc:postgresql://localhost:5433/roommatematcher
+POSTGRES_USER=roommatematcher_user
 POSTGRES_PASSWORD=your_password
 JWT_SECRET=your_secure_base64_secret
 ```
@@ -333,7 +333,7 @@ The backend includes a `Dockerfile` for containerized deployment.
 Build the Docker image:
 
 ```bash
-docker build -t roommatcher-api .
+docker build -t roommatematcher-api .
 ```
 
 Run the container:
@@ -341,11 +341,11 @@ Run the container:
 ```bash
 docker run -p 8080:8080 \
   -e SPRING_PROFILES_ACTIVE=prod \
-  -e DATABASE_URL=jdbc:postgresql://host.docker.internal:5433/roommatcher \
-  -e POSTGRES_USER=roommatcher_user \
+  -e DATABASE_URL=jdbc:postgresql://host.docker.internal:5433/roommatematcher \
+  -e POSTGRES_USER=roommatematcher_user \
   -e POSTGRES_PASSWORD=your_password \
   -e JWT_SECRET=your_secure_base64_secret \
-  roommatcher-api
+  roommatematcher-api
 ```
 
 The Docker image uses Java 17.
@@ -357,7 +357,7 @@ The backend is deployed on Render as a Docker-based Web Service.
 ### Production URL
 
 ```text
-https://room-matcher-api.onrender.com
+https://roommate-matcher-api.onrender.com
 ```
 
 ### Render environment variables
@@ -366,7 +366,7 @@ The following environment variables must be configured on Render:
 
 ```env
 SPRING_PROFILES_ACTIVE=prod
-DATABASE_URL=jdbc:postgresql://<host>:5432/roommatcher
+DATABASE_URL=jdbc:postgresql://<host>:5432/roommatematcher
 POSTGRES_USER=<database_user>
 POSTGRES_PASSWORD=<database_password>
 JWT_SECRET=<secure_base64_secret>
@@ -387,7 +387,7 @@ Important production notes:
 Example CORS origin:
 
 ```text
-https://room-matcher-web.vercel.app
+https://roommate-matcher-web.vercel.app
 ```
 
 ## Notes
@@ -396,4 +396,4 @@ https://room-matcher-web.vercel.app
 - Database initialization scripts (`schema.sql`, `data.sql`) are used in the `dev` profile with H2.
 - The `prod` profile currently uses `spring.jpa.hibernate.ddl-auto=update` and disables SQL initialization.
 - For a real production environment, Flyway or Liquibase migrations are recommended instead of relying on `ddl-auto=update`.
-- The frontend is developed in a separate repository: `roommatcher-web`.
+- The frontend is developed in a separate repository: `roommate-matcher-web`.

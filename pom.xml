@@ -8,11 +8,11 @@
 		<version>4.0.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>hr.tvz.roommatcher</groupId>
-	<artifactId>roommatcherapp</artifactId>
+	<groupId>hr.tvz.roommatematcher</groupId>
+	<artifactId>roommatematcherapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>RoomMatcher</name>
-	<description>RoomMatcher</description>
+	<name>RoommateMatcher</name>
+	<description>RoommateMatcher</description>
 	<url/>
 	<licenses>
 		<license/>

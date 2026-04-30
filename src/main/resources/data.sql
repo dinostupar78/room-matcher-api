@@ -6,11 +6,11 @@ INSERT INTO app_user (username, email, password, name, gender, bio, profile_imag
                       date_of_birth, registration_date) VALUES
       (
           'admin',
-          'admin@roommatcher.hr',
+          'admin@roommatematcher.hr',
           'admin12345',
-          'Admin RoomMatcher',
+          'Admin RoommateMatcher',
           'MALE',
-          'Administrator sustava za testiranje RoomMatcher aplikacije.',
+          'Administrator sustava za testiranje RoommateMatcher aplikacije.',
           '/uploads/avatars/default-admin.png',
           '1998-05-12',
           CURRENT_TIMESTAMP
